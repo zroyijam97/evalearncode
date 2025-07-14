@@ -104,6 +104,7 @@ export async function GET(request: NextRequest) {
     const profile = await db.select().from(userProfiles).where(eq(userProfiles.userId, user[0].id)).limit(1);
     
     return NextResponse.json({
+      onboardingCompleted: profile.length > 0 ? profile[0].hasCompletedOnboarding : false,
       hasCompletedOnboarding: profile.length > 0 ? profile[0].hasCompletedOnboarding : false,
       profile: profile.length > 0 ? profile[0] : null,
     });

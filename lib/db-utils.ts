@@ -1,5 +1,5 @@
 import { db } from './db';
-import { users, courses, lessons, enrollments, userProgress } from './schema';
+import { users, courses, lessons, enrollments, userProgress, userProfiles } from './schema';
 import { eq, and } from 'drizzle-orm';
 
 // User operations
@@ -116,6 +116,44 @@ export async function getUserProgress(userId: number, courseId: number) {
       ));
   } catch (error) {
     console.error('Error getting user progress:', error);
+    throw error;
+  }
+}
+
+// Onboarding operations
+export async function getUserOnboardingStatus(clerkId: string) {
+  try {
+    const user = await getUserByClerkId(clerkId);
+    if (!user) {
+      return { hasCompletedOnboarding: false, profile: null };
+    }
+
+    const [profile] = await db.select().from(userProfiles).where(eq(userProfiles.userId, user.id));
+    return {
+      hasCompletedOnboarding: profile?.hasCompletedOnboarding || false,
+      profile: profile || null,
+    };
+  } catch (error) {
+    console.error('Error getting user onboarding status:', error);
+    throw error;
+  }
+}
+
+export async function resetUserOnboarding(clerkId: string) {
+  try {
+    const user = await getUserByClerkId(clerkId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Reset onboarding status in user profile
+    await db.update(userProfiles)
+      .set({ hasCompletedOnboarding: false })
+      .where(eq(userProfiles.userId, user.id));
+
+    return { success: true, message: 'Onboarding status reset successfully' };
+  } catch (error) {
+    console.error('Error resetting user onboarding:', error);
     throw error;
   }
 }

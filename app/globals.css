@@ -59,6 +59,18 @@
   background-clip: text;
 }
 
+/* Additional gradient utilities for dashboard */
+.bg-gradient-purple-blue {
+  background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+}
+
+.text-gradient-purple-blue {
+  background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Glassmorphism Effect */
 .glass {
   background: rgba(255, 255, 255, 0.1);
