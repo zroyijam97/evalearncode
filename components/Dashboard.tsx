@@ -107,33 +107,12 @@ const mockChallenges: Challenge[] = [
   { id: '2', name: 'Day 10/32', type: 'Daily challenge', progress: 16, total: 200, icon: '📅', color: 'bg-yellow-100' }
 ];
 
-const mockCourses: Course[] = [
-  {
-    id: '1',
-    title: 'Mind Unlocked',
-    subtitle: 'The Human Mind',
-    progress: 45,
-    likes: 145,
-    dislikes: 0,
-    avatar: '🤖',
-    color: 'bg-blue-100'
-  },
-  {
-    id: '2',
-    title: 'Mind Unlocked',
-    subtitle: 'The Human Mind',
-    progress: 45,
-    likes: 145,
-    dislikes: 0,
-    avatar: '🤖',
-    color: 'bg-blue-100'
-  }
-];
+const mockCourses: Course[] = [];
 
 export default function Dashboard({}: DashboardProps) {
   const { user } = useUser();
   const [stats, setStats] = useState<UserStats>(mockStats);
-  const [courses, setCourses] = useState<Course[]>(mockCourses);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardUser[]>(mockLeaderboard);
   const [badges, setBadges] = useState<Badge[]>(mockBadges);
   const [challenges, setChallenges] = useState<Challenge[]>(mockChallenges);

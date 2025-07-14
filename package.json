@@ -12,11 +12,13 @@
     "@clerk/nextjs": "^6.24.0",
     "@heroicons/react": "^2.2.0",
     "@neondatabase/serverless": "^1.0.1",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.2",
     "next": "15.3.5",
     "react": "^19.0.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
