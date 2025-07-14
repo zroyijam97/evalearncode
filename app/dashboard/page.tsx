@@ -95,8 +95,8 @@ export default function DashboardPage() {
   }
 
   if (showOnboarding) {
-    return <OnboardingFlow language={language} />;
+    return <OnboardingFlow />;
   }
 
-  return <Dashboard language={language} />;
+  return <Dashboard />;
 }

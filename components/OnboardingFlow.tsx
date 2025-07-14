@@ -9,14 +9,25 @@ import Dashboard from './Dashboard';
 type Language = 'en' | 'id';
 type OnboardingStep = 'questions' | 'subscription' | 'dashboard';
 
-interface OnboardingFlowProps {
-  language: Language;
-}
-
-export default function OnboardingFlow({ language }: OnboardingFlowProps) {
+export default function OnboardingFlow() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('questions');
+  const [language, setLanguage] = useState<Language>('en');
   const [isLoading, setIsLoading] = useState(true);
   const { user, isLoaded } = useUser();
+
+  useEffect(() => {
+    // Get language from localStorage or browser preference
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    } else {
+      // Detect browser language
+      const browserLang = navigator.language.toLowerCase();
+      if (browserLang.includes('id') || browserLang.includes('ms')) {
+        setLanguage('id');
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
