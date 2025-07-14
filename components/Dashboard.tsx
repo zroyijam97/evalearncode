@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, UserButton } from '@clerk/nextjs';
 import { 
   BookOpenIcon, 
   ChartBarIcon, 
@@ -231,7 +231,9 @@ export default function Dashboard({}: DashboardProps) {
           <Bars3Icon className="h-6 w-6 text-slate-600 dark:text-slate-400" />
         </button>
         <div>
-          <h1 className="text-2xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">Welcome back!</h1>
+          <h1 className="text-2xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
+            Welcome back{user?.firstName ? `, ${user.firstName}` : ''}!
+          </h1>
           <p className="text-slate-600 dark:text-slate-400 text-sm lg:text-base">Ready to continue your learning journey?</p>
         </div>
       </div>
@@ -261,8 +263,16 @@ export default function Dashboard({}: DashboardProps) {
           <BellIcon className="h-6 w-6 lg:h-7 lg:w-7 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer" />
           <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-red-500 to-pink-500 rounded-full border-2 border-white dark:border-slate-900"></div>
         </div>
-        <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform">
-          <span className="text-white text-sm lg:text-base font-bold">JS</span>
+        <div className="w-10 h-10 lg:w-12 lg:h-12">
+          <UserButton 
+            appearance={{
+              elements: {
+                avatarBox: "w-10 h-10 lg:w-12 lg:h-12 rounded-2xl shadow-lg hover:scale-105 transition-transform",
+                userButtonPopoverCard: "bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl",
+                userButtonPopoverActionButton: "hover:bg-slate-100 dark:hover:bg-slate-700"
+              }
+            }}
+          />
         </div>
       </div>
     </div>
@@ -443,33 +453,37 @@ export default function Dashboard({}: DashboardProps) {
 
   // Badges Component
   const BadgesSection = () => (
-    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-6 lg:p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-lg mb-6 lg:mb-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg mb-6 lg:mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
         <div>
-          <h2 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">Achievements</h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Your earned badges</p>
+          <h2 className="text-lg sm:text-xl lg:text-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">Achievements</h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Your earned badges</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-2 rounded-2xl text-sm font-semibold shadow-lg">
-            8 earned
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold shadow-lg">
+            {badges.length} earned
           </div>
-          <span className="text-orange-600 text-sm font-medium hover:text-orange-700 transition-colors cursor-pointer">View all</span>
+          <span className="text-orange-600 text-xs sm:text-sm font-medium hover:text-orange-700 transition-colors cursor-pointer hidden sm:inline">View all</span>
         </div>
       </div>
       
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {badges.map((badge, index) => (
-          <div key={badge.id} className="group bg-gradient-to-br from-white to-slate-50 dark:from-slate-700 dark:to-slate-800 rounded-2xl p-4 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer border border-slate-200/50 dark:border-slate-600/50">
-            <div className={`w-12 h-12 mx-auto mb-3 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 ${
-              index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
-              index === 1 ? 'bg-gradient-to-br from-red-400 to-pink-500' :
-              index === 2 ? 'bg-gradient-to-br from-blue-400 to-cyan-500' :
-              'bg-gradient-to-br from-purple-400 to-indigo-500'
-            }`}>
-              <span className="text-white text-xl">{badge.icon}</span>
+          <div key={badge.id} className="group bg-gradient-to-br from-white to-slate-50 dark:from-slate-700 dark:to-slate-800 rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer border border-slate-200/50 dark:border-slate-600/50">
+            <div className="flex items-center space-x-3 sm:space-x-0 sm:flex-col sm:text-center">
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 sm:mx-auto sm:mb-3 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0 ${
+                index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
+                index === 1 ? 'bg-gradient-to-br from-red-400 to-pink-500' :
+                index === 2 ? 'bg-gradient-to-br from-blue-400 to-cyan-500' :
+                'bg-gradient-to-br from-purple-400 to-indigo-500'
+              }`}>
+                <span className="text-white text-lg sm:text-xl">{badge.icon}</span>
+              </div>
+              <div className="flex-1 sm:flex-none">
+                <div className="text-sm sm:text-sm font-bold text-slate-800 dark:text-white truncate sm:text-center">{badge.name}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1 sm:text-center">Earned 2 days ago</div>
+              </div>
             </div>
-            <div className="text-sm font-bold text-slate-800 dark:text-white">{badge.name}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">Earned 2 days ago</div>
           </div>
         ))}
       </div>
